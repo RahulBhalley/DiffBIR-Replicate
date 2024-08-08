@@ -33,10 +33,31 @@ MODELS = {
     ### stage_2 model weights
     # "sd_v21": "https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolve/main/v2-1_512-ema-pruned.ckpt",
     "sd_v21": "https://huggingface.co/latent-consistency/lcm-sdxl/resolve/main/diffusion_pytorch_model.fp16.safetensors",
+    "sd_v21_ckpt": "diffusion_pytorch_model.fp16.ckpt",
     "v1_face": "https://huggingface.co/lxq007/DiffBIR-v2/resolve/main/v1_face.pth",
     "v1_general": "https://huggingface.co/lxq007/DiffBIR-v2/resolve/main/v1_general.pth",
     "v2": "https://huggingface.co/lxq007/DiffBIR-v2/resolve/main/v2.pth"
 }
+
+
+def convert_sd_st_to_ckpt():
+
+    import torch
+    from safetensors.torch import load_file as load_safetensors, save_file as save_safetensors
+
+    def convert_safetensors_to_ckpt(safetensors_path, ckpt_path):
+        # Load the safetensors model
+        state_dict = load_safetensors(safetensors_path)
+        
+        # Save the model as a .ckpt file
+        torch.save(state_dict, ckpt_path)
+        print(f"Model saved to {ckpt_path}")
+
+    # if __name__ == "__main__":
+    safetensors_path = "/workspace/DiffBIR/weights/diffusion_pytorch_model.fp16.safetensors"
+    ckpt_path = "/workspace/DiffBIR/weights/diffusion_pytorch_model.fp16.ckpt"
+
+    convert_safetensors_to_ckpt(safetensors_path, ckpt_path)
 
 
 def load_model_from_url(url: str) -> Dict[str, torch.Tensor]:
@@ -68,7 +89,12 @@ class InferenceLoop:
     def init_stage2_model(self) -> None:
         ### load uent, vae, clip
         self.cldm: ControlLDM = instantiate_from_config(OmegaConf.load("configs/inference/cldm.yaml"))
+        # Download
         sd = load_model_from_url(MODELS["sd_v21"])
+        # Convert to ckpt
+        convert_sd_st_to_ckpt()
+        # Load ckpt
+        sd = load_model_from_url(MODELS["sd_v21_ckpt"])
         unused = self.cldm.load_pretrained_sd(sd)
         print(f"strictly load pretrained sd_v2.1, unused weights: {unused}")
         ### load controlnet
