@@ -90,7 +90,7 @@ class InferenceLoop:
         ### load uent, vae, clip
         self.cldm: ControlLDM = instantiate_from_config(OmegaConf.load("configs/inference/cldm.yaml"))
         # Download
-        sd = load_model_from_url(MODELS["sd_v21"])
+        # sd = load_model_from_url(MODELS["sd_v21"])
         # Convert to ckpt
         convert_sd_st_to_ckpt()
         # Load ckpt
