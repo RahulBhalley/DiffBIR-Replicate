@@ -31,7 +31,8 @@ MODELS = {
     "scunet_psnr": "https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_psnr.pth",
     "swinir_general": "https://huggingface.co/lxq007/DiffBIR/resolve/main/general_swinir_v1.ckpt",
     ### stage_2 model weights
-    "sd_v21": "https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolve/main/v2-1_512-ema-pruned.ckpt",
+    # "sd_v21": "https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolve/main/v2-1_512-ema-pruned.ckpt",
+    "sd_v21": "https://huggingface.co/latent-consistency/lcm-sdxl/resolve/main/diffusion_pytorch_model.fp16.safetensors",
     "v1_face": "https://huggingface.co/lxq007/DiffBIR-v2/resolve/main/v1_face.pth",
     "v1_general": "https://huggingface.co/lxq007/DiffBIR-v2/resolve/main/v1_general.pth",
     "v2": "https://huggingface.co/lxq007/DiffBIR-v2/resolve/main/v2.pth"
